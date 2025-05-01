@@ -16,21 +16,19 @@ Ideal para fins educativos e prática com estrutura de projetos modulares.
 
 ## 📁 Estrutura do Projeto
 
-. ├── api/ │ 
-           ├── app.py # Arquivo principal com o app FastAPI 
-           │ 
-           ├── models/ # Modelos Pydantic (Livro) 
-           │ 
-           ├── routes/ # Rotas da API 
-           │ 
-           └── functions/ # Lógica de leitura/escrita do XML 
-           │ 
-           ├── db/ │ 
-                   └── livros.xml # "Banco de dados" XML 
-           │ 
-           ├── .venv/ # Ambiente virtual (gitignore) 
-           ├── requirements.txt # Dependências do projeto 
-           └── README.md
+```
+api/
+├── app.py              # Arquivo principal com o app FastAPI
+├── models/             # Modelos Pydantic (Livro)
+├── routes/             # Rotas da API
+├── functions/          # Lógica de leitura/escrita do XML
+├── db/
+│   └── livros.xml      # "Banco de dados" XML
+├── .venv/              # Ambiente virtual (gitignore)
+├── requirements.txt    # Dependências do projeto
+└── README.md
+```
+
 
 yaml
 Copiar

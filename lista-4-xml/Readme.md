@@ -16,7 +16,21 @@ Ideal para fins educativos e prática com estrutura de projetos modulares.
 
 ## 📁 Estrutura do Projeto
 
-. ├── api/ │ ├── app.py # Arquivo principal com o app FastAPI │ ├── models/ # Modelos Pydantic (Livro) │ ├── routes/ # Rotas da API │ └── functions/ # Lógica de leitura/escrita do XML │ ├── db/ │ └── livros.xml # "Banco de dados" XML │ ├── .venv/ # Ambiente virtual (gitignore) ├── requirements.txt # Dependências do projeto └── README.md
+. ├── api/ │ 
+           ├── app.py # Arquivo principal com o app FastAPI 
+           │ 
+           ├── models/ # Modelos Pydantic (Livro) 
+           │ 
+           ├── routes/ # Rotas da API 
+           │ 
+           └── functions/ # Lógica de leitura/escrita do XML 
+           │ 
+           ├── db/ │ 
+                   └── livros.xml # "Banco de dados" XML 
+           │ 
+           ├── .venv/ # Ambiente virtual (gitignore) 
+           ├── requirements.txt # Dependências do projeto 
+           └── README.md
 
 yaml
 Copiar
@@ -56,3 +70,31 @@ Acesse:
 Swagger UI: http://127.0.0.1:8000/docs
 
 Redoc: http://127.0.0.1:8000/redoc
+
+
+🧪 Exemplos de uso
+POST /livros
+json
+Copiar
+Editar
+{
+  "id": 1,
+  "titulo": "Dom Quixote",
+  "autor": "Miguel de Cervantes",
+  "ano": 1605,
+  "genero": "Romance"
+}
+GET /livros
+Lista todos os livros cadastrados.
+
+GET /livros/{id}
+Busca um livro pelo id.
+
+PUT /livros/{id}
+Atualiza as informações de um livro específico.
+
+DELETE /livros/{id}
+Remove o livro do arquivo XML.
+
+📄 Licença
+Este projeto é livre para fins acadêmicos e educativos.

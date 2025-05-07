@@ -1,0 +1,6 @@
+2025-05-06 21:07:07,622 - INFO - Processando registro: {'id': 1, 'name': 'John', 'age': 30}
+2025-05-06 21:07:07,623 - INFO - Processando registro: {'id': 2, 'name': 'Alice', 'age': 25}
+2025-05-06 21:07:07,623 - WARNING - Erro no registro: Dado inválido: {'id': 3, 'name': 'Bob', 'age': None}
+2025-05-07 08:45:12,426 - INFO - Processando registro: {'id': 1, 'name': 'John', 'age': 30}
+2025-05-07 08:45:12,427 - INFO - Processando registro: {'id': 2, 'name': 'Alice', 'age': 25}
+2025-05-07 08:45:12,427 - WARNING - Erro no registro: Dado inválido: {'id': 3, 'name': 'Bob', 'age': None}

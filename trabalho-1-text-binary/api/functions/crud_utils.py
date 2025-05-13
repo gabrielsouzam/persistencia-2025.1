@@ -4,6 +4,8 @@ from pydantic import BaseModel
 from fastapi import HTTPException
 import xml.etree.ElementTree as ET
 from api.models.appointment_model import Appointment
+from api.models.doctor_model import Doctor
+from api.models.patient_model import Patient
 import os
 import xml.etree.ElementTree as ET
 import csv
@@ -26,9 +28,31 @@ def write_all(entity_name: str, data: List[BaseModel]):
         writer.writeheader()
         for item in data:
             writer.writerow(item.model_dump())
+            
+def validate_appointment(appointment: Appointment) -> bool:
+    doctor = read_all("doctors", Doctor)
+    patient = read_all("patients", Patient)
+    doctor_exists = False
+    patient_exists = False
+    for d in doctor:
+        if int(d.id) == int(appointment.doctor_id):
+            doctor_exists = True
+            break
+    for p in patient:
+        if int(p.id) == int(appointment.patient_id):
+            patient_exists = True
+            break
+    if not doctor_exists:
+        raise HTTPException(status_code=404, detail="Doctor not found")
+    if not patient_exists:
+        raise HTTPException(status_code=404, detail="Patient not found")
+    return True
 
 def append_entity(entity_name: str, item: BaseModel):
     data = read_all(entity_name, type(item))
+    if entity_name == 'appointments':
+        if not validate_appointment(item):
+            raise HTTPException(status_code=400, detail="Invalid appointment data")
     data.append(item)
     write_all(entity_name, data)
 

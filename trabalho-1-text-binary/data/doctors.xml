@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf-8'?>
+<doctors><item><id>1</id><name>Dr. Emily Stone</name><specialty>Cardiology</specialty><email>emily.stone@hospital.com</email><phone>555-1234</phone><crm>CRM12345</crm></item><item><id>2</id><name>Dr. Lucas Reed</name><specialty>Neurology</specialty><email>lucas.reed@clinic.com</email><phone>555-5678</phone><crm>CRM67890</crm></item></doctors>

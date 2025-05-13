@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf-8'?>
+<patients><item><id>1</id><name>Alice Johnson</name><birthdate>1990-05-20</birthdate><gender>Female</gender><email>alice.johnson@example.com</email><phone>555-1111</phone></item></patients>

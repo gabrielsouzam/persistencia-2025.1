@@ -1,70 +1,67 @@
-from fastapi import APIRouter
-from api.models.appointment_model import Appointment
-from api.functions import crud_utils as crud
-from fastapi.responses import FileResponse
+from fastapi import APIRouter, Query
 from typing import Optional
+from fastapi.responses import FileResponse
+from api.models.appointment_model import Appointment
+from api.functions.shared import read_all
+from api.functions.appointment_functions import (
+    append_appointment,
+    update_appointment,
+    delete_appointment,
+    count_appointments,
+    zip_appointments,
+    hash_appointments,
+    xml_appointments,
+    filter_appointments
+)
 
 router = APIRouter()
-ENTITY = "appointments"
-
-@router.get("/filter")
-def filter_appointments(
-    patient_id: Optional[int] = None,
-    doctor_id: Optional[int] = None,
-    status: Optional[str] = None
-):
-    filters = {k: v for k, v in {
-        "patient_id": patient_id,
-        "doctor_id": doctor_id,
-        "status": status
-    }.items() if v is not None}
-
-    return crud.filter_entities(ENTITY, Appointment, filters)
-
 
 @router.post("/")
 def create(item: Appointment):
-    crud.append_entity(ENTITY, item)
+    append_appointment(item)
     return {"message": "Appointment created"}
 
 @router.get("/")
 def get_all():
-    return crud.read_all(ENTITY, Appointment)
+    return read_all("appointments", Appointment)
 
 @router.get("/count")
 def count():
-    return {"count": crud.count_entities(ENTITY)}
+    return {"count": count_appointments()}
 
 @router.get("/hash")
 def hash_csv():
-    return {"hash_sha256": crud.get_csv_hash(ENTITY)}
+    return {"hash": hash_appointments()}
 
 @router.get("/zip")
 def download_zip():
-    zip_path = crud.zip_csv(ENTITY)
-    return FileResponse(
-        path=zip_path,
-        filename=f"{ENTITY}.zip",
-        media_type="application/zip"
-    )
-
-from fastapi.responses import FileResponse
+    path = zip_appointments()
+    return FileResponse(path=path, filename="appointments.zip", media_type="application/zip")
 
 @router.get("/xml")
 def download_xml():
-    xml_path = crud.csv_to_xml(ENTITY)
-    return FileResponse(
-        path=xml_path,
-        filename=f"{ENTITY}.xml",
-        media_type="application/xml"
-    )
+    path = xml_appointments()
+    return FileResponse(path=path, filename="appointments.xml", media_type="application/xml")
+
+@router.get("/filter")
+def filter_appointment(
+    doctor_id: Optional[int] = None,
+    patient_id: Optional[int] = None,
+    status: Optional[str] = None
+):
+    filters = {k: v for k, v in {
+        "doctor_id": doctor_id,
+        "patient_id": patient_id,
+        "status": status
+    }.items() if v is not None}
+    return filter_appointments(filters)
 
 @router.put("/{item_id}")
 def update(item_id: int, item: Appointment):
-    crud.update_entity(ENTITY, item_id, item)
+    update_appointment(item_id, item)
     return {"message": "Appointment updated"}
 
 @router.delete("/{item_id}")
 def delete(item_id: int):
-    crud.delete_entity(ENTITY, item_id, Appointment)
+    delete_appointment(item_id)
     return {"message": "Appointment deleted"}

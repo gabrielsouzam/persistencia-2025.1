@@ -9,6 +9,7 @@ from api.models.patient_model import Patient
 import os
 import xml.etree.ElementTree as ET
 import csv
+from .logger import logger
 
 def get_csv_path(entity_name: str) -> str:
     return f"data/{entity_name}.csv"
@@ -16,10 +17,13 @@ def get_csv_path(entity_name: str) -> str:
 def read_all(entity_name: str, model: Type[BaseModel]) -> List[BaseModel]:
     path = get_csv_path(entity_name)
     if not os.path.exists(path):
+        logger.warning(f"Arquivo CSV não encontrado para {entity_name}")
         return []
     with open(path, newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
-        return [model(**row) for row in reader]
+        data = [model(**row) for row in reader]
+        logger.info(f"{len(data)} registros lidos de {entity_name}")
+        return data
 
 def write_all(entity_name: str, data: List[BaseModel]):
     path = get_csv_path(entity_name)
@@ -28,6 +32,7 @@ def write_all(entity_name: str, data: List[BaseModel]):
         writer.writeheader()
         for item in data:
             writer.writerow(item.model_dump())
+        logger.info(f"{len(data)} registros escritos em {entity_name}")
             
 def validate_appointment(appointment: Appointment) -> bool:
     doctor = read_all("doctors", Doctor)
@@ -52,9 +57,11 @@ def append_entity(entity_name: str, item: BaseModel):
     data = read_all(entity_name, type(item))
     if entity_name == 'appointments':
         if not validate_appointment(item):
+            logger.error("Agendamento inválido")
             raise HTTPException(status_code=400, detail="Invalid appointment data")
     data.append(item)
     write_all(entity_name, data)
+    logger.info(f"Novo item adicionado em {entity_name}: {item.model_dump()}")
 
 def update_entity(entity_name: str, item_id: int, updated_item: BaseModel):
     data = read_all(entity_name, type(updated_item))
@@ -62,7 +69,9 @@ def update_entity(entity_name: str, item_id: int, updated_item: BaseModel):
         if int(item.id) == item_id:
             data[idx] = updated_item
             write_all(entity_name, data)
+            logger.info(f"Item com ID {item_id} atualizado em {entity_name}")
             return
+    logger.error(f"Item com ID {item_id} não encontrado para atualização em {entity_name}")
     raise HTTPException(status_code=404, detail="Item not found")
 
 def delete_entity(entity_name: str, item_id: int, model: Type[BaseModel]):
@@ -70,19 +79,20 @@ def delete_entity(entity_name: str, item_id: int, model: Type[BaseModel]):
     filtered = [item for item in data if int(item.id) != item_id]
 
     if len(data) == len(filtered):
+        logger.warning(f"Tentativa de excluir item inexistente com ID {item_id} em {entity_name}")
         raise HTTPException(status_code=404, detail="Item not found")
 
     write_all(entity_name, filtered)
+    logger.info(f"Item com ID {item_id} removido de {entity_name}")
 
-    if entity_name == 'doctors':
+    if entity_name in ['doctors', 'patients']:
         appointments = read_all('appointments', Appointment)
-        remaining = [item for item in appointments if int(item.doctor_id) != item_id]
+        remaining = [
+            item for item in appointments 
+            if (int(item.doctor_id) != item_id if entity_name == 'doctors' else int(item.patient_id) != item_id)
+        ]
         write_all('appointments', remaining)
-
-    elif entity_name == 'patients':
-        appointments = read_all('appointments', Appointment)
-        remaining = [item for item in appointments if int(item.patient_id) != item_id]
-        write_all('appointments', remaining)
+        logger.info(f"Agendamentos relacionados a {entity_name} ID {item_id} também foram removidos")
       
 def count_entities(entity_name: str) -> int:
     path = get_csv_path(entity_name)

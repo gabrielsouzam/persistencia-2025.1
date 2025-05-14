@@ -2,9 +2,25 @@ from fastapi import APIRouter
 from api.models.patient_model import Patient
 from api.functions import crud_utils as crud
 from fastapi.responses import FileResponse
+from typing import Optional
 
 router = APIRouter()
 ENTITY = "patients"
+
+@router.get("/filter")
+def filter_patients(
+    name: Optional[str] = None,
+    gender: Optional[str] = None,
+    email: Optional[str] = None
+):
+    filters = {k: v for k, v in {
+        "name": name,
+        "gender": gender,
+        "email": email
+    }.items() if v is not None}
+
+    return crud.filter_entities(ENTITY, Patient, filters)
+
 
 @router.post("/")
 def create(item: Patient):

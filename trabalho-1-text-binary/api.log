@@ -80,3 +80,11 @@
 2025-05-14 15:37:03,802 - INFO - 5 registros lidos de doctors
 2025-05-14 15:39:26,119 - INFO - 5 registros lidos de doctors
 2025-05-14 15:39:26,119 - WARNING - Tentativa de inserção duplicada em doctors com id=5
+2025-05-14 15:56:32,376 - INFO - 5 registros lidos de doctors
+2025-05-14 15:56:32,377 - INFO - 1 registros encontrados após filtro em doctors com {'specialty': 'Cardiology'}
+2025-05-14 15:58:01,514 - INFO - 5 registros lidos de patients
+2025-05-14 15:58:01,515 - INFO - 3 registros encontrados após filtro em patients com {'gender': 'Female'}
+2025-05-14 15:58:28,027 - INFO - 5 registros lidos de patients
+2025-05-14 15:58:28,027 - INFO - 3 registros encontrados após filtro em patients com {'gender': 'Female'}
+2025-05-14 15:58:51,538 - INFO - 5 registros lidos de appointments
+2025-05-14 15:58:51,538 - INFO - 1 registros encontrados após filtro em appointments com {'doctor_id': 2, 'status': 'Scheduled'}

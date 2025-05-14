@@ -10,6 +10,8 @@ import os
 import xml.etree.ElementTree as ET
 import csv
 from .logger import logger
+from fastapi import Query
+from typing import Any, Dict
 
 def get_csv_path(entity_name: str) -> str:
     return f"data/{entity_name}.csv"
@@ -102,12 +104,15 @@ def delete_entity(entity_name: str, item_id: int, model: Type[BaseModel]):
 def count_entities(entity_name: str) -> int:
     path = get_csv_path(entity_name)
     if not os.path.exists(path):
+        logger.info(f"Contagem solicitada para {entity_name}, mas o arquivo CSV não existe.")
         return 0
     with open(path, "r", encoding="utf-8") as f:
-        return sum(1 for _ in f) - 1
+        count = sum(1 for _ in f) - 1
+    logger.info(f"{count} registros encontrados em {entity_name}")
+    return count
+
 
 def zip_csv(entity_name: str) -> str:
-    import os, zipfile
     path = get_csv_path(entity_name)
     zip_path = f"data/{entity_name}.zip"
 
@@ -116,7 +121,9 @@ def zip_csv(entity_name: str) -> str:
     with zipfile.ZipFile(zip_path, "w") as zf:
         zf.write(path, arcname=os.path.basename(path))
 
+    logger.info(f"Arquivo ZIP criado para {entity_name}: {zip_path}")
     return zip_path
+
 
 
 def get_csv_hash(entity_name: str) -> str:
@@ -143,4 +150,25 @@ def csv_to_xml(entity_name: str) -> str:
     xml_path = f"data/{entity_name}.xml"
     ET.ElementTree(tree_root).write(xml_path, encoding="utf-8", xml_declaration=True)
 
+    logger.info(f"Arquivo XML gerado para {entity_name}: {xml_path}")
     return xml_path
+
+
+def filter_entities(entity_name: str, model: Type[BaseModel], filters: Dict[str, Any]) -> List[BaseModel]:
+    data = read_all(entity_name, model)
+    if not filters:
+        return data
+
+    filtered = []
+    for item in data:
+        match = True
+        for key, value in filters.items():
+            attr = getattr(item, key, None)
+            if attr is None or str(attr).lower() != str(value).lower():
+                match = False
+                break
+        if match:
+            filtered.append(item)
+
+    logger.info(f"{len(filtered)} registros encontrados após filtro em {entity_name} com {filters}")
+    return filtered

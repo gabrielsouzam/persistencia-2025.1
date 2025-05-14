@@ -1,0 +1,82 @@
+2025-05-14 12:20:17,494 - INFO - 1 registros lidos de doctors
+2025-05-14 12:25:27,894 - INFO - 1 registros lidos de doctors
+2025-05-14 12:25:27,895 - INFO - 2 registros escritos em doctors
+2025-05-14 12:25:27,895 - INFO - Novo item adicionado em doctors: {'id': 2, 'name': 'Dr. Lucas Reed', 'specialty': 'Neurology', 'email': 'lucas.reed@clinic.com', 'phone': '555-5678', 'crm': 'CRM67890'}
+2025-05-14 12:25:37,617 - INFO - 2 registros lidos de doctors
+2025-05-14 12:25:37,618 - INFO - 3 registros escritos em doctors
+2025-05-14 12:25:37,618 - INFO - Novo item adicionado em doctors: {'id': 3, 'name': 'Dr. Ana Mendes', 'specialty': 'Dermatology', 'email': 'ana.mendes@clinic.com', 'phone': '555-1010', 'crm': 'CRM11223'}
+2025-05-14 12:25:49,416 - INFO - 3 registros lidos de doctors
+2025-05-14 12:25:49,419 - INFO - 4 registros escritos em doctors
+2025-05-14 12:25:49,420 - INFO - Novo item adicionado em doctors: {'id': 4, 'name': 'Dr. Marcos Lima', 'specialty': 'Pediatrics', 'email': 'marcos.lima@hospital.com', 'phone': '555-1212', 'crm': 'CRM33445'}
+2025-05-14 12:25:56,098 - INFO - 4 registros lidos de doctors
+2025-05-14 12:25:56,099 - INFO - 5 registros escritos em doctors
+2025-05-14 12:25:56,100 - INFO - Novo item adicionado em doctors: {'id': 5, 'name': 'Dr. Carla Torres', 'specialty': 'Ophthalmology', 'email': 'carla.torres@clinic.com', 'phone': '555-1313', 'crm': 'CRM55667'}
+2025-05-14 12:26:03,449 - INFO - 5 registros lidos de doctors
+2025-05-14 12:26:03,449 - INFO - 6 registros escritos em doctors
+2025-05-14 12:26:03,450 - INFO - Novo item adicionado em doctors: {'id': 5, 'name': 'Dr. Carla Torres', 'specialty': 'Ophthalmology', 'email': 'carla.torres@clinic.com', 'phone': '555-1313', 'crm': 'CRM55667'}
+2025-05-14 12:29:41,150 - INFO - 6 registros lidos de doctors
+2025-05-14 12:29:41,150 - INFO - 4 registros escritos em doctors
+2025-05-14 12:29:41,151 - INFO - Item com ID 5 removido de doctors
+2025-05-14 12:29:41,159 - INFO - 1 registros lidos de appointments
+2025-05-14 12:29:41,160 - INFO - 1 registros escritos em appointments
+2025-05-14 12:29:41,160 - INFO - Agendamentos relacionados a doctors ID 5 também foram removidos
+2025-05-14 12:29:45,319 - INFO - 4 registros lidos de doctors
+2025-05-14 12:29:53,216 - INFO - 4 registros lidos de doctors
+2025-05-14 12:29:53,217 - INFO - 5 registros escritos em doctors
+2025-05-14 12:29:53,217 - INFO - Novo item adicionado em doctors: {'id': 5, 'name': 'Dr. Carla Torres', 'specialty': 'Ophthalmology', 'email': 'carla.torres@clinic.com', 'phone': '555-1313', 'crm': 'CRM55667'}
+2025-05-14 12:29:56,178 - INFO - 5 registros lidos de doctors
+2025-05-14 12:29:56,179 - WARNING - Tentativa de inserção duplicada em doctors com id=5
+2025-05-14 12:30:43,735 - INFO - 5 registros lidos de doctors
+2025-05-14 12:30:43,735 - INFO - 5 registros escritos em doctors
+2025-05-14 12:30:43,735 - INFO - Item com ID 5 atualizado em doctors
+2025-05-14 12:31:47,973 - INFO - 1 registros lidos de patients
+2025-05-14 12:31:47,975 - WARNING - Tentativa de excluir item inexistente com ID 5 em patients
+2025-05-14 12:32:20,843 - INFO - 1 registros lidos de patients
+2025-05-14 12:32:37,698 - INFO - 0 registros lidos de patients
+2025-05-14 12:33:14,274 - INFO - 0 registros lidos de patients
+2025-05-14 12:33:14,275 - INFO - 1 registros escritos em patients
+2025-05-14 12:33:14,275 - INFO - Novo item adicionado em patients: {'id': 1, 'name': 'Alice Johnson', 'birthdate': '1990-05-20', 'gender': 'Female', 'email': 'alice.johnson@example.com', 'phone': '555-1111'}
+2025-05-14 12:33:27,004 - INFO - 1 registros lidos de patients
+2025-05-14 12:33:27,005 - INFO - 2 registros escritos em patients
+2025-05-14 12:33:27,005 - INFO - Novo item adicionado em patients: {'id': 2, 'name': 'Bruno Silva', 'birthdate': '1985-11-03', 'gender': 'Male', 'email': 'bruno.silva@example.com', 'phone': '555-2222'}
+2025-05-14 12:33:32,178 - INFO - 2 registros lidos de patients
+2025-05-14 12:33:32,178 - INFO - 3 registros escritos em patients
+2025-05-14 12:33:32,179 - INFO - Novo item adicionado em patients: {'id': 3, 'name': 'Carla Dias', 'birthdate': '2000-02-15', 'gender': 'Female', 'email': 'carla.dias@example.com', 'phone': '555-3333'}
+2025-05-14 12:33:35,911 - INFO - 3 registros lidos de patients
+2025-05-14 12:33:35,911 - INFO - 4 registros escritos em patients
+2025-05-14 12:33:35,911 - INFO - Novo item adicionado em patients: {'id': 4, 'name': 'Diego Martins', 'birthdate': '1995-08-30', 'gender': 'Male', 'email': 'diego.martins@example.com', 'phone': '555-4444'}
+2025-05-14 12:33:41,345 - INFO - 4 registros lidos de patients
+2025-05-14 12:33:41,346 - INFO - 5 registros escritos em patients
+2025-05-14 12:33:41,346 - INFO - Novo item adicionado em patients: {'id': 5, 'name': 'Fernanda Costa', 'birthdate': '1988-12-10', 'gender': 'Female', 'email': 'fernanda.costa@example.com', 'phone': '555-5555'}
+2025-05-14 12:34:57,825 - INFO - 1 registros lidos de appointments
+2025-05-14 12:35:42,065 - INFO - 1 registros lidos de appointments
+2025-05-14 12:35:46,628 - INFO - 0 registros lidos de appointments
+2025-05-14 12:36:00,344 - INFO - 0 registros lidos de appointments
+2025-05-14 12:36:00,345 - INFO - 5 registros lidos de doctors
+2025-05-14 12:36:00,345 - INFO - 5 registros lidos de patients
+2025-05-14 12:36:00,345 - INFO - 1 registros escritos em appointments
+2025-05-14 12:36:00,346 - INFO - Novo item adicionado em appointments: {'id': 1, 'patient_id': 1, 'doctor_id': 2, 'date': '2024-06-20 10:00', 'reason': 'Migraine and dizziness', 'status': 'Scheduled'}
+2025-05-14 12:36:10,638 - INFO - 1 registros lidos de appointments
+2025-05-14 12:36:10,638 - INFO - 5 registros lidos de doctors
+2025-05-14 12:36:10,639 - INFO - 5 registros lidos de patients
+2025-05-14 12:36:10,640 - INFO - 2 registros escritos em appointments
+2025-05-14 12:36:10,641 - INFO - Novo item adicionado em appointments: {'id': 2, 'patient_id': 2, 'doctor_id': 1, 'date': '2024-06-21 09:00', 'reason': 'Routine cardiology check-up', 'status': 'Scheduled'}
+2025-05-14 12:36:15,864 - INFO - 2 registros lidos de appointments
+2025-05-14 12:36:15,864 - INFO - 5 registros lidos de doctors
+2025-05-14 12:36:15,864 - INFO - 5 registros lidos de patients
+2025-05-14 12:36:15,865 - INFO - 3 registros escritos em appointments
+2025-05-14 12:36:15,865 - INFO - Novo item adicionado em appointments: {'id': 3, 'patient_id': 3, 'doctor_id': 3, 'date': '2024-06-22 15:00', 'reason': 'Skin allergy consultation', 'status': 'Scheduled'}
+2025-05-14 12:36:22,221 - INFO - 3 registros lidos de appointments
+2025-05-14 12:36:22,223 - INFO - 5 registros lidos de doctors
+2025-05-14 12:36:22,223 - INFO - 5 registros lidos de patients
+2025-05-14 12:36:22,224 - INFO - 4 registros escritos em appointments
+2025-05-14 12:36:22,224 - INFO - Novo item adicionado em appointments: {'id': 4, 'patient_id': 4, 'doctor_id': 4, 'date': '2024-06-23 11:30', 'reason': 'Child vaccination', 'status': 'Confirmed'}
+2025-05-14 12:36:26,461 - INFO - 4 registros lidos de appointments
+2025-05-14 12:36:26,462 - INFO - 5 registros lidos de doctors
+2025-05-14 12:36:26,463 - INFO - 5 registros lidos de patients
+2025-05-14 12:36:26,464 - INFO - 5 registros escritos em appointments
+2025-05-14 12:36:26,464 - INFO - Novo item adicionado em appointments: {'id': 5, 'patient_id': 5, 'doctor_id': 5, 'date': '2024-06-24 14:45', 'reason': 'Eye examination', 'status': 'Scheduled'}
+2025-05-14 12:37:44,188 - INFO - 5 registros lidos de appointments
+2025-05-14 15:37:03,802 - INFO - 5 registros lidos de doctors
+2025-05-14 15:39:26,119 - INFO - 5 registros lidos de doctors
+2025-05-14 15:39:26,119 - WARNING - Tentativa de inserção duplicada em doctors com id=5

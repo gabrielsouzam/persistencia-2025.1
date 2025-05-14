@@ -55,6 +55,11 @@ def validate_appointment(appointment: Appointment) -> bool:
 
 def append_entity(entity_name: str, item: BaseModel):
     data = read_all(entity_name, type(item))
+    
+    if any(int(existing.id) == int(item.id) for existing in data):
+        logger.warning(f"Tentativa de inserção duplicada em {entity_name} com id={item.id}")
+        raise HTTPException(status_code=400, detail=f"Item with id={item.id} already exists")
+    
     if entity_name == 'appointments':
         if not validate_appointment(item):
             logger.error("Agendamento inválido")

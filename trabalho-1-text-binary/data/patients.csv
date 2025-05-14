@@ -1,2 +1,6 @@
 id,name,birthdate,gender,email,phone
-1,bendes,29/02/2003,sei não,bendes@gmail.com,8899999999
+1,Alice Johnson,1990-05-20,Female,alice.johnson@example.com,555-1111
+2,Bruno Silva,1985-11-03,Male,bruno.silva@example.com,555-2222
+3,Carla Dias,2000-02-15,Female,carla.dias@example.com,555-3333
+4,Diego Martins,1995-08-30,Male,diego.martins@example.com,555-4444
+5,Fernanda Costa,1988-12-10,Female,fernanda.costa@example.com,555-5555

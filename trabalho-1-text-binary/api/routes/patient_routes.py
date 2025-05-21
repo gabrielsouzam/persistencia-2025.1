@@ -1,52 +1,67 @@
-from fastapi import APIRouter
-from api.models.patient_model import Patient
-from api.functions import crud_utils as crud
+from fastapi import APIRouter, Query
+from typing import Optional
 from fastapi.responses import FileResponse
+from api.models.patient_model import Patient
+from api.functions.shared import read_all
+from api.functions.patient_functions import (
+    append_patient,
+    update_patient,
+    delete_patient,
+    count_patients,
+    zip_patients,
+    hash_patients,
+    xml_patients,
+    filter_patients
+)
 
 router = APIRouter()
-ENTITY = "patients"
 
 @router.post("/")
 def create(item: Patient):
-    crud.append_entity(ENTITY, item)
+    append_patient(item)
     return {"message": "Patient created"}
 
 @router.get("/")
 def get_all():
-    return crud.read_all(ENTITY, Patient)
+    return read_all("patients", Patient)
 
 @router.get("/count")
 def count():
-    return {"count": crud.count_entities(ENTITY)}
+    return {"count": count_patients()}
 
 @router.get("/hash")
 def hash_csv():
-    return {"hash_sha256": crud.get_csv_hash(ENTITY)}
+    return {"hash": hash_patients()}
 
 @router.get("/zip")
 def download_zip():
-    zip_path = crud.zip_csv(ENTITY)
-    return FileResponse(
-        path=zip_path,
-        filename=f"{ENTITY}.zip",
-        media_type="application/zip"
-    )
+    path = zip_patients()
+    return FileResponse(path=path, filename="patients.zip", media_type="application/zip")
 
 @router.get("/xml")
 def download_xml():
-    xml_path = crud.csv_to_xml(ENTITY)
-    return FileResponse(
-        path=xml_path,
-        filename=f"{ENTITY}.xml",
-        media_type="application/xml"
-    )
+    path = xml_patients()
+    return FileResponse(path=path, filename="patients.xml", media_type="application/xml")
+
+@router.get("/filter")
+def filter_patient(
+    name: Optional[str] = None,
+    gender: Optional[str] = None,
+    email: Optional[str] = None
+):
+    filters = {k: v for k, v in {
+        "name": name,
+        "gender": gender,
+        "email": email
+    }.items() if v is not None}
+    return filter_patients(filters)
 
 @router.put("/{item_id}")
 def update(item_id: int, item: Patient):
-    crud.update_entity(ENTITY, item_id, item)
+    update_patient(item_id, item)
     return {"message": "Patient updated"}
 
 @router.delete("/{item_id}")
 def delete(item_id: int):
-    crud.delete_entity(ENTITY, item_id, Patient)
+    delete_patient(item_id)
     return {"message": "Patient deleted"}

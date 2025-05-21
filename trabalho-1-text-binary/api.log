@@ -80,3 +80,37 @@
 2025-05-14 15:37:03,802 - INFO - 5 registros lidos de doctors
 2025-05-14 15:39:26,119 - INFO - 5 registros lidos de doctors
 2025-05-14 15:39:26,119 - WARNING - Tentativa de inserção duplicada em doctors com id=5
+2025-05-14 15:56:32,376 - INFO - 5 registros lidos de doctors
+2025-05-14 15:56:32,377 - INFO - 1 registros encontrados após filtro em doctors com {'specialty': 'Cardiology'}
+2025-05-14 15:58:01,514 - INFO - 5 registros lidos de patients
+2025-05-14 15:58:01,515 - INFO - 3 registros encontrados após filtro em patients com {'gender': 'Female'}
+2025-05-14 15:58:28,027 - INFO - 5 registros lidos de patients
+2025-05-14 15:58:28,027 - INFO - 3 registros encontrados após filtro em patients com {'gender': 'Female'}
+2025-05-14 15:58:51,538 - INFO - 5 registros lidos de appointments
+2025-05-14 15:58:51,538 - INFO - 1 registros encontrados após filtro em appointments com {'doctor_id': 2, 'status': 'Scheduled'}
+2025-05-14 16:12:12,851 - INFO - 5 registros lidos de doctors
+2025-05-14 16:12:12,853 - INFO - 1 registros encontrados após filtro em doctors com {'specialty': 'Cardiology'}
+2025-05-14 16:12:22,451 - INFO - 5 registros lidos de doctors
+2025-05-14 16:12:32,736 - INFO - 5 registros lidos de doctors
+2025-05-14 16:12:32,738 - INFO - 1 registros encontrados após filtro em doctors com {'specialty': 'Neurology'}
+2025-05-14 16:12:42,555 - INFO - 5 registros lidos de doctors
+2025-05-14 16:12:42,555 - WARNING - Tentativa de inserção duplicada em doctors com id=5
+2025-05-14 16:12:48,048 - INFO - 5 registros lidos de doctors
+2025-05-14 16:12:48,048 - INFO - 6 registros escritos em doctors
+2025-05-14 16:12:48,053 - INFO - Novo item adicionado em doctors: {'id': 6, 'name': 'Dr. Rafael Coutinho', 'specialty': 'Endocrinology', 'email': 'rafael.coutinho@endoclinic.com', 'phone': '555-6666', 'crm': 'CRM77889'}
+2025-05-14 16:12:53,631 - INFO - 6 registros lidos de doctors
+2025-05-14 16:13:02,138 - INFO - 6 registros encontrados em doctors
+2025-05-14 16:13:20,721 - INFO - Arquivo ZIP criado para appointments: data/appointments.zip
+2025-05-14 16:13:36,427 - INFO - 5 registros lidos de appointments
+2025-05-14 16:13:36,430 - INFO - 6 registros lidos de doctors
+2025-05-14 16:13:36,431 - INFO - 5 registros lidos de patients
+2025-05-14 16:13:36,434 - INFO - 6 registros escritos em appointments
+2025-05-14 16:13:36,436 - INFO - Novo item adicionado em appointments: {'id': 6, 'patient_id': 5, 'doctor_id': 6, 'date': '2024-06-25 10:30', 'reason': 'Follow-up for thyroid treatment', 'status': 'Scheduled'}
+2025-05-14 16:13:41,440 - INFO - 6 registros lidos de appointments
+2025-05-14 16:13:51,870 - INFO - Arquivo ZIP criado para appointments: data/appointments.zip
+2025-05-14 16:14:29,323 - INFO - 6 registros lidos de appointments
+2025-05-14 16:14:29,323 - INFO - 1 registros encontrados após filtro em appointments com {'doctor_id': 2, 'status': 'Scheduled'}
+2025-05-14 16:14:35,234 - INFO - 6 registros lidos de appointments
+2025-05-14 16:14:35,234 - INFO - 1 registros encontrados após filtro em appointments com {'doctor_id': 1, 'status': 'Scheduled'}
+2025-05-14 16:14:41,609 - INFO - Arquivo XML gerado para appointments: data/appointments.xml
+2025-05-14 16:14:54,380 - INFO - Arquivo XML gerado para appointments: data/appointments.xml

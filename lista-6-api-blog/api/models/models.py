@@ -1,10 +1,17 @@
 from typing import List, Optional
+from pydantic import BaseModel
 from sqlmodel import Field, Relationship, SQLModel
 
-# Primeiro definimos a tabela associativa
+
+class PostCreate(BaseModel):
+    title: str
+    content: str
+    user_id: int
+    category_ids: List[int] = []
+    
 class PostCategory(SQLModel, table=True):
-    post_id: Optional[int] = Field(default=None, foreign_key="post.id", primary_key=True)
-    category_id: Optional[int] = Field(default=None, foreign_key="category.id", primary_key=True)
+    post_id: int = Field(foreign_key="post.id", primary_key=True)  # Removido Optional
+    category_id: int = Field(foreign_key="category.id", primary_key=True) 
 
 class User(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -15,15 +22,31 @@ class User(SQLModel, table=True):
     comments: List["Comment"] = Relationship(back_populates="user")
     likes: List["Like"] = Relationship(back_populates="user")
 
+class CategoryRead(BaseModel):
+    id: int
+    name: str
+
+    class Config:
+        from_attributes = True
+        
 class Category(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str
 
-    # Aqui passamos a classe PostCategory, não uma string
     posts: List["Post"] = Relationship(
         back_populates="categories",
         link_model=PostCategory
     )
+    
+class PostRead(BaseModel):
+    id: int
+    title: str
+    content: str
+    user_id: int
+    categories: List[CategoryRead] = []  
+
+    class Config:
+        from_attributes = True
 
 class Post(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)

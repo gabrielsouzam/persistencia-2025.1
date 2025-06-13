@@ -1,0 +1,2 @@
+2025-06-13 00:24:39 INFO  [api.routes.patient_routes:22] Paciente criado: gabriel (id=3)
+2025-06-13 00:33:16 INFO  [api.routes.doctor_routes:44] Doutor apagado: joao (id=0)

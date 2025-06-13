@@ -1,15 +1,14 @@
-from __future__ import annotations
 from typing import Optional, List, TYPE_CHECKING
 from datetime import datetime
 from pydantic import BaseModel
 from sqlmodel import SQLModel, Field, Relationship
+from api.models.doctor import Doctor
 
 if TYPE_CHECKING:
-    from api.models.doctor import Doctor
     from api.models.patient import Patient
     from api.models.prescription import Prescription
     
-class AppointmentBase(BaseModel):
+class AppointmentBase(SQLModel):
     doctor_id: int
     patient_id: int
     date: str
@@ -32,4 +31,4 @@ class Appointment(SQLModel, table=True):
 
     doctor: Optional["Doctor"] = Relationship(back_populates="appointments")
     patient: Optional["Patient"] = Relationship(back_populates="appointments")
-    prescriptions: List["Prescription"] = Relationship(back_populates="appointment")
+    prescriptions: list["Prescription"] = Relationship(back_populates="appointment")

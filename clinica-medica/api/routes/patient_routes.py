@@ -1,59 +1,78 @@
+from math import ceil
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlmodel import Session, select
+from sqlmodel import Session, func, select
 from api.database.session import get_session
 from api.models.patient import Patient, PatientCreate, PatientRead
 from typing import List, Optional
 import logging
 
-router = APIRouter(prefix="/patients", tags=["Patients"])
 logger = logging.getLogger(__name__)
 
+router = APIRouter(prefix="/patients", tags=["Patients"])
+
+@router.get("/")
+def get_all_patient(session: Session = Depends(get_session)):
+    return session.exec(select(Patient)).all()
+
 @router.post("/", response_model=PatientRead)
-def criar_paciente(paciente: PatientCreate, session: Session = Depends(get_session)):
-    novo_paciente = Patient.from_orm(paciente)
+def create_patient(paciente: PatientCreate, session: Session = Depends(get_session)):
+    novo_paciente = Patient(**paciente.dict())
     session.add(novo_paciente)
     session.commit()
     session.refresh(novo_paciente)
     logger.info(f"Paciente criado: {novo_paciente.name} (id={novo_paciente.id})")
     return novo_paciente
 
-@router.get("/", response_model=List[PatientRead])
-def listar_pacientes(page: int = 1, limit: int = 10, session: Session = Depends(get_session)):
+@router.get("/paginated")
+def get_patients_paginated(
+    page: int = Query(1, ge=1),
+    limit: int = Query(10, ge=1),
+    session: Session = Depends(get_session)
+):
+    total_items = session.scalar(
+        select(func.count()).select_from(Patient)
+    ) or 0
     offset = (page - 1) * limit
-    pacientes = session.exec(select(Patient).offset(offset).limit(limit)).all()
-    return pacientes
+    items: List[Patient] = session.exec(
+        select(Patient).offset(offset).limit(limit)
+    ).all()
+    return {
+        "items": items,
+        "total_items": total_items,
+        "page": page,
+        "limit": limit,
+        "total_pages": ceil(total_items / limit) if total_items else 0
+    }
 
-@router.get("/contagem")
-def contar_pacientes(session: Session = Depends(get_session)):
+@router.get("/count")
+def count_patient(session: Session = Depends(get_session)):
     total = session.exec(select(Patient)).all()
     return {"quantidade": len(total)}
 
-@router.get("/filtrar", response_model=List[PatientRead])
-def filtrar_pacientes(
-    nome: Optional[str] = None,
+@router.get("/filter", response_model=List[Patient])
+def filter_patients(
+    name: Optional[str] = None,
     email: Optional[str] = None,
-    page: int = 1,
-    limit: int = 10,
     session: Session = Depends(get_session)
 ):
-    offset = (page - 1) * limit
     query = select(Patient)
-    if nome:
-        query = query.where(Patient.name.ilike(f"%{nome}%"))
+    if name:
+        query = query.where(Patient.name.ilike(f"%{name}%"))
     if email:
         query = query.where(Patient.email.ilike(f"%{email}%"))
-    pacientes = session.exec(query.offset(offset).limit(limit)).all()
-    return pacientes
+
+    results = session.exec(query).all()
+    return results
 
 @router.get("/{paciente_id}", response_model=PatientRead)
-def buscar_paciente(paciente_id: int, session: Session = Depends(get_session)):
+def get_patient_by_id(paciente_id: int, session: Session = Depends(get_session)):
     paciente = session.get(Patient, paciente_id)
     if not paciente:
         raise HTTPException(status_code=404, detail="Paciente não encontrado")
     return paciente
 
 @router.put("/{paciente_id}", response_model=PatientRead)
-def atualizar_paciente(paciente_id: int, dados: PatientCreate, session: Session = Depends(get_session)):
+def update_patient(paciente_id: int, dados: PatientCreate, session: Session = Depends(get_session)):
     paciente = session.get(Patient, paciente_id)
     if not paciente:
         logger.warning(f"Update falhou: Paciente não encontrado (id={paciente_id})")
@@ -66,7 +85,7 @@ def atualizar_paciente(paciente_id: int, dados: PatientCreate, session: Session 
     return paciente
 
 @router.delete("/{paciente_id}")
-def deletar_paciente(paciente_id: int, session: Session = Depends(get_session)):
+def delete_patient(paciente_id: int, session: Session = Depends(get_session)):
     paciente = session.get(Patient, paciente_id)
     if not paciente:
         logger.warning(f"Tentativa de deletar paciente inexistente (id={paciente_id})")
@@ -75,3 +94,4 @@ def deletar_paciente(paciente_id: int, session: Session = Depends(get_session)):
     session.commit()
     logger.info(f"Paciente deletado: {paciente.name} (id={paciente.id})")
     return {"ok": True, "message": "Paciente deletado"}
+

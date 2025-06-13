@@ -1,12 +1,10 @@
-from __future__ import annotations
-from typing import Optional, List
-from pydantic import BaseModel
+from typing import TYPE_CHECKING, Optional, List
 from sqlmodel import SQLModel, Field, Relationship
 
-from api.models.appointment import Appointment
-from api.models.doctor import Doctor, DoctorSpecialtyLink
+if TYPE_CHECKING:
+    from api.models.doctor import Doctor
 
-class SpecialtyBase(BaseModel):
+class SpecialtyBase(SQLModel):
     name: str
     description: str
 
@@ -21,7 +19,4 @@ class Specialty(SQLModel, table=True):
     name: str
     description: str
 
-    doctors: List["Doctor"] = Relationship(
-        back_populates="specialties",
-        link_model=DoctorSpecialtyLink
-    )
+    doctors: list["Doctor"] = Relationship(back_populates="specialty")

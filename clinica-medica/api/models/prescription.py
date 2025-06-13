@@ -1,11 +1,10 @@
-from __future__ import annotations
 from typing import Optional
 from pydantic import BaseModel
 from sqlmodel import SQLModel, Field, Relationship
 
 from api.models.appointment import Appointment
 
-class PrescriptionBase(BaseModel):
+class PrescriptionBase(SQLModel):
     appointment_id: int
     medication: str
     dosage: str

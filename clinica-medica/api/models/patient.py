@@ -1,16 +1,15 @@
-from __future__ import annotations
 from typing import List, Optional
 from pydantic import BaseModel
 from sqlmodel import SQLModel, Field, Relationship
 
 from api.models.appointment import Appointment
 
-class PatientBase(BaseModel):
+class PatientBase(SQLModel):
     name: str
     email: str
     cpf: str
 
-class PatientCreate(PatientBase):
+class PatientCreate(PatientBase, table=False):
     pass
 
 class PatientRead(PatientBase):
@@ -22,4 +21,4 @@ class Patient(SQLModel, table=True):
     email: str
     cpf: str
 
-    appointments: List["Appointment"] = Relationship(back_populates="patient")
+    appointments: list["Appointment"] = Relationship(back_populates="patient")

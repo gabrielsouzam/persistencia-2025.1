@@ -35,6 +35,26 @@ def get_appointments_paginated(
         "total_pages": ceil(total_items / limit) if total_items else 0
     }
 
+@router.get("/count")
+def count_appointments(session: Session = Depends(get_session)):
+    total = session.exec(select(Appointment)).all()
+    return {"quantidade": len(total)}
+
+@router.get("/filter", response_model=List[Appointment])
+def filter_appointments(
+    patient_id: Optional[int] = None,
+    doctor_id: Optional[int] = None,
+    session: Session = Depends(get_session)
+):
+    query = select(Appointment)
+    if patient_id:
+        query = query.where(Appointment.patient_id == patient_id)
+    if doctor_id:
+        query = query.where(Appointment.doctor_id == doctor_id)
+
+    result = session.exec(query).all()
+    return result
+
 @router.get("/{appointment_id}")
 def get_appointment(appointment_id: int, session: Session = Depends(get_session)):
     appointment = session.get(Appointment, appointment_id)
@@ -49,7 +69,7 @@ def create_appointment(appointment: AppointmentCreate, session: Session = Depend
     session.add(newAppointment)
     session.commit()
     session.refresh(newAppointment)
-    logger.info(f"Paciente criado: {appointment.date} (id={appointment.id})")
+    logger.info(f"Paciente criado: {newAppointment.date} (id={newAppointment.id})")
     
     return newAppointment
 
@@ -72,24 +92,7 @@ def delete_appointment(appointment_id: int, session: Session = Depends(get_sessi
     session.commit()
     return {"ok": True}
 
-@router.get("/count")
-def count_appointments(session: Session = Depends(get_session)):
-    total = session.exec(select(Appointment)).all()
-    return {"quantidade": len(total)}
 
 
 
-@router.get("/filter", response_model=List[Appointment])
-def filter_appointments(
-    patient_id: Optional[int] = None,
-    doctor_id: Optional[int] = None,
-    session: Session = Depends(get_session)
-):
-    query = select(Appointment)
-    if patient_id:
-        query = query.where(Appointment.patient_id == patient_id)
-    if doctor_id:
-        query = query.where(Appointment.doctor_id == doctor_id)
 
-    result = session.exec(query).all()
-    return result

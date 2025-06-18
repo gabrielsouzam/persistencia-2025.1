@@ -34,6 +34,23 @@ def get_specialties_paginated(
         "limit": limit,
         "total_pages": ceil(total_items / limit) if total_items else 0
     }
+    
+@router.get("/count")
+def count_specialties(session: Session = Depends(get_session)):
+    total = session.exec(select(Specialty)).all()
+    return {"quantidade": len(total)}
+
+@router.get("/filter", response_model=List[Specialty])
+def filter_specialties(
+    name: Optional[str] = None,
+    session: Session = Depends(get_session)
+):
+    query = select(Specialty)
+    if name:
+        query = query.where(Specialty.name.ilike(f"%{name}%"))
+
+    result = session.exec(query).all()
+    return result
 
 @router.get("/{specialty_id}")
 def get_specialty(specialty_id: int, session: Session = Depends(get_session)):
@@ -71,19 +88,5 @@ def delete_specialty(specialty_id: int, session: Session = Depends(get_session))
     logger.info(f"Especialidade apagada: {Specialty.description} (id={Specialty.id})")
     return {"ok": True}
 
-@router.get("/count")
-def count_specialties(session: Session = Depends(get_session)):
-    total = session.exec(select(Specialty)).all()
-    return {"quantidade": len(total)}
 
-@router.get("/filter", response_model=List[Specialty])
-def filter_specialties(
-    name: Optional[str] = None,
-    session: Session = Depends(get_session)
-):
-    query = select(Specialty)
-    if name:
-        query = query.where(Specialty.name.ilike(f"%{name}%"))
 
-    result = session.exec(query).all()
-    return result

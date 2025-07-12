@@ -34,6 +34,26 @@ def get_prescriptions_paginated(
         "limit": limit,
         "total_pages": ceil(total_items / limit) if total_items else 0
     }
+    
+@router.get("/count")
+def count_prescriptions(session: Session = Depends(get_session)):
+    total = session.exec(select(Prescription)).all()
+    return {"quantidade": len(total)}
+
+@router.get("/filter", response_model=List[Prescription])
+def filter_prescriptions(
+    appointment_id: Optional[int] = None,
+    medicamento: Optional[str] = None,
+    session: Session = Depends(get_session)
+):
+    query = select(Prescription)
+    if appointment_id:
+        query = query.where(Prescription.appointment_id == appointment_id)
+    if medicamento:
+        query = query.where(Prescription.medication.ilike(f"%{medicamento}%"))
+
+    result = session.exec(query).all()
+    return result
 
 @router.get("/{prescription_id}")
 def get_prescription(prescription_id: int, session: Session = Depends(get_session)):
@@ -71,23 +91,6 @@ def delete_prescription(prescription_id: int, session: Session = Depends(get_ses
     logger.info(f"Prescrição apagada: {prescription.instructions} (id={prescription.id})")
     return {"ok": True}
 
-@router.get("/count")
-def count_prescriptions(session: Session = Depends(get_session)):
-    total = session.exec(select(Prescription)).all()
-    return {"quantidade": len(total)}
 
 
-@router.get("/filter", response_model=List[Prescription])
-def filter_prescriptions(
-    appointment_id: Optional[int] = None,
-    medicamento: Optional[str] = None,
-    session: Session = Depends(get_session)
-):
-    query = select(Prescription)
-    if appointment_id:
-        query = query.where(Prescription.appointment_id == appointment_id)
-    if medicamento:
-        query = query.where(Prescription.medicamento.ilike(f"%{medicamento}%"))
 
-    result = session.exec(query).all()
-    return result

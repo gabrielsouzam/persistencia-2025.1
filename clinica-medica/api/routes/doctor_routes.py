@@ -33,6 +33,26 @@ def get_doctors_paginated(
         "limit": limit,
         "total_pages": ceil(total_items / limit) if total_items else 0
     }
+    
+@router.get("/count")
+def count_doctors(session: Session = Depends(get_session)):
+    total = session.exec(select(Doctor)).all()
+    return {"quantidade": len(total)}
+
+@router.get("/filter", response_model=List[Doctor])
+def filter_doctors(
+    name: Optional[str] = None,
+    crm: Optional[str] = None,
+    session: Session = Depends(get_session)
+):
+    query = select(Doctor)
+    if name:
+        query = query.where(Doctor.name.ilike(f"%{name}%"))
+    if crm:
+        query = query.where(Doctor.crm == crm)
+
+    result = session.exec(query).all()
+    return result
 
 @router.get("/{doctor_id}")
 def get_doctor(doctor_id: int, session: Session = Depends(get_session)):
@@ -71,24 +91,3 @@ def delete_doctor(doctor_id: int, session: Session = Depends(get_session)):
     return {"ok": True}
 
 
-@router.get("/count")
-def count_doctors(session: Session = Depends(get_session)):
-    total = session.exec(select(Doctor)).all()
-    return {"quantidade": len(total)}
-
-
-
-@router.get("/filter", response_model=List[Doctor])
-def filter_doctors(
-    name: Optional[str] = None,
-    crm: Optional[str] = None,
-    session: Session = Depends(get_session)
-):
-    query = select(Doctor)
-    if name:
-        query = query.where(Doctor.name.ilike(f"%{name}%"))
-    if crm:
-        query = query.where(Doctor.crm == crm)
-
-    result = session.exec(query).all()
-    return result

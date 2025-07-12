@@ -1,0 +1,20 @@
+import os
+from dotenv import load_dotenv
+import motor
+import motor.motor_asyncio
+
+
+load_dotenv()
+
+client = motor.motor_asyncio.AsyncIOMotorClient(
+  os.getenv("MONGO_URL")
+)
+
+database = client["escola"]
+
+professores_collection = database["professores"]
+alunos_collection = database["alunos"]
+cursos_collection = database["cursos"]
+turmas_collection = database["turmas"]
+departamentos_collection = database["departamentos"]
+matriculas_collection = database["matriculas"]

@@ -12,3 +12,5 @@
 2025-06-18 14:05:50 INFO  [api.routes.doctor_routes:49] Doutor criado: Marilene (id=2)
 2025-06-18 14:17:12 INFO  [api.routes.appointment_routes:52] Paciente criado: 12/12/2025 (id=8)
 2025-06-18 14:19:33 INFO  [api.routes.prescription_routes:50] Prescrição criada: Tomar em jejum (id=0)
+2025-06-18 14:33:53 INFO  [api.routes.prescription_routes:81] Prescrição alterada: Tomar duas vezes ao dia (id=0)
+2025-06-18 17:21:56 INFO  [api.routes.patient_routes:23] Paciente criado: emanuel (id=6)
